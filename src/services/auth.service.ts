@@ -8,6 +8,10 @@ export class AuthService {
 
     }
 
+    register(user: User) {
+        return this.http.post(`${environment.apiUrl}/register`, user, this.getOptions()).toPromise();
+    }
+
     login(email: string, password: string) {
         return this.http.post(`${environment.apiUrl}/login`, { email, password }, this.getOptions()).toPromise();
     }
