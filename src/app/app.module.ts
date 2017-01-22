@@ -8,15 +8,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from '../pages/login/login.component';
 import { IndexComponent } from '../pages/index/index.component';
 import { RegisterComponent } from '../pages/register/register.component';
+import { RoomsComponent } from '../pages/rooms/rooms.component';
 
 import { AuthService } from '../services/auth.service';
+import { RoomService } from '../services/room.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     IndexComponent,
-    RegisterComponent
+    RegisterComponent,
+    RoomsComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,8 @@ import { AuthService } from '../services/auth.service';
     AppRoutingModule
   ],
   providers: [
-    AuthService
+    AuthService,
+    RoomService
   ],
   bootstrap: [AppComponent]
 })
