@@ -12,6 +12,7 @@ import { RoomsComponent } from '../pages/rooms/rooms.component';
 
 import { AuthService } from '../services/auth.service';
 import { RoomService } from '../services/room.service';
+import { SocketService } from '../services/socket.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RoomService } from '../services/room.service';
     LoginComponent,
     IndexComponent,
     RegisterComponent,
-    RoomsComponent
+    RoomsComponent,
+    SocketService
   ],
   imports: [
     BrowserModule,
