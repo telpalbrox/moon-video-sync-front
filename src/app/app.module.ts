@@ -20,8 +20,7 @@ import { SocketService } from '../services/socket.service';
     LoginComponent,
     IndexComponent,
     RegisterComponent,
-    RoomsComponent,
-    SocketService
+    RoomsComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +30,8 @@ import { SocketService } from '../services/socket.service';
   ],
   providers: [
     AuthService,
-    RoomService
+    RoomService,
+    SocketService
   ],
   bootstrap: [AppComponent]
 })

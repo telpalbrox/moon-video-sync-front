@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
 import { environment } from '../environments/environment';
 import * as io from 'socket.io-client';
 
 @Injectable()
 export class SocketService {
     private socketClient: SocketIOClient.Socket = null;
-    constructor(private http: Http) { }
 
     connect() {
-        if (!this.socketClient) {
-            return this.socketClient = io(environment.apiUrl);
-        }
-        if (!this.socketClient.connected) {
-            this.socketClient.connect();
-        }
+        return new Promise((resolve) => {
+            if (!this.socketClient) {
+                this.socketClient = io(environment.apiUrl);
+            }
+            if (!this.socketClient.connected) {
+                this.socketClient.connect();
+            }
+            this.socketClient.on('connect', () => {
+                resolve();
+                this.socketClient.off('connect');
+            });
+        });
     }
 
     disconnect() {
