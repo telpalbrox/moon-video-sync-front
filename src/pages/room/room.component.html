@@ -2,6 +2,11 @@
 <div *ngIf="room">
   Name: {{ room.name }}
   <button (click)="testEvent()">Emit test event</button>
+  <label>Youtube id <input name="youtubeId" [(ngModel)]="youtubeId"></label> <button (click)="onAddVideo()" type="submit">Add</button>
+  <br>
+  <div *ngFor="let video of room.videos">
+    {{ video.youtubeId }} - {{ video.title }} <button (click)="onDeleteVideo(video)">Remove</button>
+  </div>
 </div>
 <div *ngIf="!room">
   Loading...

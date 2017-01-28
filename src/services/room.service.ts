@@ -24,6 +24,19 @@ export class RoomService {
     return response.json();
   }
 
+  async addVideoToRoom(roomId: number, youtubeId: string) {
+    const response = await this.http.post(`${environment.apiUrl}/rooms/${roomId}/videos`, {
+      youtubeId
+    }, this.getOptions()).toPromise();
+    return response.json();
+  }
+
+  async deleteVideoFromRoom(roomId: number, videoId: number) {
+    const response = await this.http.delete(`${environment.apiUrl}/rooms/${roomId}/videos/${videoId}`, this.getOptions()).toPromise();
+    return response.json();
+  }
+
+
   async joinRoom(roomId: number) {
     await this.socketService.connect();
     this.socketService.emit('join room', { id: roomId });
