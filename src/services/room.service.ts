@@ -37,13 +37,15 @@ export class RoomService {
   }
 
 
-  async joinRoom(roomId: number) {
+  async joinRoom(roomId: number, listeners: { onDeleteVideo: (video: Video) => void, onAddVideo: (video: Video) => void }) {
     await this.socketService.connect();
     this.socketService.emit('join room', { id: roomId });
     this.socketService.on('pause song', () => {
       console.log('pause song');
       console.log(roomId);
-    })
+    });
+    this.socketService.on('video added', (video) => listeners.onAddVideo(video));
+    this.socketService.on('video deleted', (video) => listeners.onDeleteVideo(video));
   }
 
   leaveRoom() {

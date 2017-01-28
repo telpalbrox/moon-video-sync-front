@@ -15,7 +15,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const id = parseInt(this.route.snapshot.params['id']);
     this.room = await this.roomService.getRoom(id);
-    await this.roomService.joinRoom(id);
+    await this.roomService.joinRoom(id, {
+      onDeleteVideo: this.onDeleteVideo.bind(this),
+      onAddVideo: this.onAddVideo.bind(this)
+    });
   }
 
   ngOnDestroy() {
@@ -26,17 +29,23 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.roomService.pauseSong();
   }
 
-  async onAddVideo() {
+  async onAddVideoClick() {
     if (!this.youtubeId) {
       return;
     }
-    const video = await this.roomService.addVideoToRoom(this.room.id, this.youtubeId);
+    await this.roomService.addVideoToRoom(this.room.id, this.youtubeId);
     this.youtubeId = '';
-    this.room.videos.push(video);
   }
 
-  async onDeleteVideo(videoToDelete: Video) {
+  async onDeleteVideoClick(videoToDelete: Video) {
     await this.roomService.deleteVideoFromRoom(this.room.id, videoToDelete.id);
-    this.room.videos = this.room.videos.filter((video) => video.id !== videoToDelete.id);
+  }
+
+  onDeleteVideo(videoDeleted) {
+    this.room.videos = this.room.videos.filter((video) => video.id !== videoDeleted.id);
+  }
+
+  onAddVideo(videoAdded) {
+    this.room.videos.push(videoAdded);
   }
 }
