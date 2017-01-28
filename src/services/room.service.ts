@@ -48,7 +48,8 @@ export class RoomService {
     this.socketService.on('video deleted', (video) => listeners.onDeleteVideo(video));
   }
 
-  leaveRoom() {
+  leaveRoom(id: number) {
+    this.socketService.emit('leave room', { id });
     this.socketService.disconnect();
   }
 

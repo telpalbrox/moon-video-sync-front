@@ -11,6 +11,8 @@ interface Room {
   name?: number;
   users?: User[];
   videos: Video[];
+  playing?: boolean;
+  currentVideoId: number;
 }
 
 interface Video {

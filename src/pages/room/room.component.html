@@ -1,7 +1,8 @@
 <h2>Room</h2>
 <div *ngIf="room">
-  Name: {{ room.name }}
-  <button (click)="testEvent()">Emit test event</button>
+  Name: {{ room.name }} <br>
+  <div id="yt-player"></div>
+  <br>
   <label>Youtube id <input name="youtubeId" [(ngModel)]="youtubeId"></label> <button (click)="onAddVideoClick()" type="submit">Add</button>
   <br>
   <div *ngFor="let video of room.videos">
