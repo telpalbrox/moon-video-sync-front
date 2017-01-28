@@ -19,3 +19,4 @@ import 'core-js/es7/reflect';
 import 'zone.js/dist/zone';
 
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/switchMap';

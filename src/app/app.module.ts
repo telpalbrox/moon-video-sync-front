@@ -9,6 +9,8 @@ import { LoginComponent } from '../pages/login/login.component';
 import { IndexComponent } from '../pages/index/index.component';
 import { RegisterComponent } from '../pages/register/register.component';
 import { RoomsComponent } from '../pages/rooms/rooms.component';
+import { RoomComponent } from '../pages/room/room.component';
+import { CreateRoomComponent } from '../pages/createRoom/create-room.component';
 
 import { AuthService } from '../services/auth.service';
 import { RoomService } from '../services/room.service';
@@ -20,7 +22,9 @@ import { SocketService } from '../services/socket.service';
     LoginComponent,
     IndexComponent,
     RegisterComponent,
-    RoomsComponent
+    RoomsComponent,
+    RoomComponent,
+    CreateRoomComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,8 @@
+<h2>Room</h2>
+<div *ngIf="room">
+  Name: {{ room.name }}
+  <button (click)="testEvent()">Emit test event</button>
+</div>
+<div *ngIf="!room">
+  Loading...
+</div>

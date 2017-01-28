@@ -5,6 +5,8 @@ import { LoginComponent } from '../pages/login/login.component';
 import { IndexComponent } from '../pages/index/index.component';
 import { RegisterComponent } from '../pages/register/register.component';
 import { RoomsComponent } from '../pages/rooms/rooms.component';
+import { RoomComponent } from '../pages/room/room.component';
+import { CreateRoomComponent } from '../pages/createRoom/create-room.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path: 'rooms',
     component: RoomsComponent
+  },
+  {
+    path: 'rooms/:id',
+    component: RoomComponent
+  },
+  {
+    path: 'create-room',
+    component: CreateRoomComponent
   }
 ];
 

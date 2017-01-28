@@ -1,5 +1,4 @@
 <h2>Rooms</h2>
-<button type="button" (click)="pauseSong()">Test emit event</button>
 <ul *ngFor="let room of rooms">
-    <li>{{ room.name }} <button type="button" (click)="joinRoom(room)">join</button></li>
+  <li><a [routerLink]="['/rooms', room.id]">{{ room.name }}</a></li>
 </ul>
