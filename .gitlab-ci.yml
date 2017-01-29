@@ -6,9 +6,7 @@ before_script:
     - npm set progress=false
     - npm install --silent
 
-pages:
-  script:
-    - npm run build
-  artifacts:
-    paths:
-      - dist
+deploy:
+    script:
+      - npm run build
+      - npm run deploy
