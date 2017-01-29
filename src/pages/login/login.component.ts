@@ -26,6 +26,7 @@ export class LoginComponent {
       try {
         await this.authService.login(this.email, this.password);
         this.showError = false;
+        await this.router.navigate(['/rooms']);
       } catch(err) {
         this.showError = true;
       }

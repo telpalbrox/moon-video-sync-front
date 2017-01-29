@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { AuthService } from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,10 +12,18 @@ export class RegisterComponent {
   password: string;
   firstName: string;
   lastName: string;
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
-  onSubmit() {
+  async onSubmit() {
     const { email, password, firstName, lastName } = this;
-    this.authService.register({ email, password, lastName, firstName });
+    try {
+      await this.authService.register({ email, password, lastName, firstName });
+      await this.router.navigate(['/rooms']);
+    } catch (err) {
+
+    }
   }
 }

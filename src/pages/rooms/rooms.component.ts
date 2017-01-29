@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-rooms',
@@ -8,9 +9,16 @@ import { RoomService } from '../../services/room.service';
 export class RoomsComponent implements OnInit {
   rooms: Room[];
 
-  constructor(private roomService: RoomService) { }
+  constructor(
+    private router: Router,
+    private roomService: RoomService
+  ) { }
 
   async ngOnInit() {
-    this.rooms = await this.roomService.getAll();
+    try {
+      this.rooms = await this.roomService.getAll();
+    } catch (err) {
+      this.router.navigate(['/login']);
+    }
   }
 }

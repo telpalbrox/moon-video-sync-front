@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import YouTubePlayer from 'youtube-player';
 import { RoomService } from '../../services/room.service';
 
@@ -13,7 +13,11 @@ export class RoomComponent implements OnInit, OnDestroy {
   player: any;
   currentVideo: Video;
 
-  constructor(private roomService: RoomService, private route: ActivatedRoute) { }
+  constructor(
+    private roomService: RoomService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
     const id = parseInt(this.route.snapshot.params['id']);
@@ -22,7 +26,12 @@ export class RoomComponent implements OnInit, OnDestroy {
       onAddVideo: this.onAddVideo.bind(this),
       onChangeVideo: this.onChangeVideo.bind(this)
     });
-    this.room = await this.roomService.getRoom(id);
+    try {
+      this.room = await this.roomService.getRoom(id);
+    } catch (err) {
+      await this.router.navigate(['/login']);
+      return;
+    }
     setTimeout(async () => {
       this.player = YouTubePlayer('yt-player', {
         playerVars: {
@@ -46,8 +55,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.roomService.leaveRoom(this.room.id);
-    this.player.destroy();
+    this.room && this.roomService.leaveRoom(this.room.id);
+    this.player && this.player.destroy();
   }
 
   testEvent() {

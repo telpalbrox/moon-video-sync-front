@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RoomService } from '../../services/room.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-room',
@@ -8,9 +9,17 @@ import { RoomService } from '../../services/room.service';
 export class CreateRoomComponent {
   name: string;
 
-  constructor(private roomService: RoomService) { }
+  constructor(
+    private roomService: RoomService,
+    private router: Router
+  ) { }
 
-  onSubmit() {
-    this.roomService.createRoom(this.name);
+  async onSubmit() {
+    try {
+      const room = await this.roomService.createRoom(this.name);
+      await this.router.navigate(['/rooms', room.id]);
+    } catch (err) {
+
+    }
   }
 }
