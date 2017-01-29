@@ -30,7 +30,11 @@ export class RoomComponent implements OnInit, OnDestroy {
           // hideUi: true
         }
       });
+      this.player.addEventListener('onStateChange', (event: YT.EventArgs) => event.data === 0 && this.onVideoEnded.call(this));
       this.currentVideo = this.room.videos.find((video) => video.id === this.room.currentVideoId);
+      if (!this.currentVideo) {
+        return;
+      }
       await this.player.loadVideoById(this.currentVideo.youtubeId);
       if (this.currentVideo.startedPlayed) {
         const startedDate = new Date(this.currentVideo.startedPlayed);
@@ -38,7 +42,6 @@ export class RoomComponent implements OnInit, OnDestroy {
         const seconds = (now.getTime() - startedDate.getTime()) / 1000;
         await this.player.seekTo(seconds);
       }
-      this.player.addEventListener('onStateChange', (event: YT.EventArgs) => event.data === 0 && this.onVideoEnded.call(this));
     }, 10);
   }
 
@@ -69,6 +72,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   onAddVideo(videoAdded) {
     this.room.videos.push(videoAdded);
+    if (!this.currentVideo) {
+      this.currentVideo = this.room.videos[0];
+      this.player.loadVideoById(this.currentVideo.youtubeId);
+    }
   }
 
   async onVideoEnded() {
