@@ -4,3 +4,5 @@ deploy:
   directory: .
 plugins:
   - name: webpage
+    options:
+      pushState: true
