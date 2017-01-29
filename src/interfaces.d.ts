@@ -21,4 +21,5 @@ interface Video {
   title?: string;
   room?: Room;
   currentPosition?: number;
+  startedPlayed?: string;
 }

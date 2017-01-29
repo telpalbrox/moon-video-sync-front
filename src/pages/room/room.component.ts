@@ -24,19 +24,17 @@ export class RoomComponent implements OnInit, OnDestroy {
     setTimeout(async () => {
       this.player = YouTubePlayer('yt-player', {
         playerVars: {
-          controls: 0,
-          hideUi: true
+          // controls: 0,
+          // hideUi: true
         }
       });
       const video = this.room.videos.find((video) => video.id === this.room.currentVideoId);
-      console.log(video);
-      console.log(this.room);
-      if (!video) {
-        return;
-      }
       await this.player.loadVideoById(video.youtubeId);
-      if (!this.room.playing) {
-        this.player.pauseVideo();
+      if (video.startedPlayed) {
+        const startedDate = new Date(video.startedPlayed);
+        const now = new Date();
+        const seconds = (now.getTime() - startedDate.getTime()) / 1000;
+        await this.player.seekTo(seconds);
       }
     }, 10);
   }
