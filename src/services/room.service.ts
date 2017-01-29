@@ -36,8 +36,11 @@ export class RoomService {
     return response.json();
   }
 
-
-  async joinRoom(roomId: number, listeners: { onDeleteVideo: (video: Video) => void, onAddVideo: (video: Video) => void }) {
+  async joinRoom(roomId: number, listeners: {
+    onDeleteVideo: (video: Video) => void,
+    onAddVideo: (video: Video) => void,
+    onChangeVideo: (video: Video) => void
+  }) {
     await this.socketService.connect();
     this.socketService.emit('join room', { id: roomId });
     this.socketService.on('pause song', () => {
@@ -46,11 +49,16 @@ export class RoomService {
     });
     this.socketService.on('video added', (video) => listeners.onAddVideo(video));
     this.socketService.on('video deleted', (video) => listeners.onDeleteVideo(video));
+    this.socketService.on('video changed', (video) => listeners.onChangeVideo(video));
   }
 
   leaveRoom(id: number) {
     this.socketService.emit('leave room', { id });
     this.socketService.disconnect();
+  }
+
+  changeVideo(id: number, emit: boolean) {
+    this.socketService.emit('change video', { id, emit });
   }
 
   pauseSong() {

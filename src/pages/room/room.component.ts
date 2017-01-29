@@ -11,6 +11,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: Room;
   youtubeId: string;
   player: any;
+  currentVideo: Video;
 
   constructor(private roomService: RoomService, private route: ActivatedRoute) { }
 
@@ -18,7 +19,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     const id = parseInt(this.route.snapshot.params['id']);
     await this.roomService.joinRoom(id, {
       onDeleteVideo: this.onDeleteVideo.bind(this),
-      onAddVideo: this.onAddVideo.bind(this)
+      onAddVideo: this.onAddVideo.bind(this),
+      onChangeVideo: this.onChangeVideo.bind(this)
     });
     this.room = await this.roomService.getRoom(id);
     setTimeout(async () => {
@@ -28,14 +30,15 @@ export class RoomComponent implements OnInit, OnDestroy {
           // hideUi: true
         }
       });
-      const video = this.room.videos.find((video) => video.id === this.room.currentVideoId);
-      await this.player.loadVideoById(video.youtubeId);
-      if (video.startedPlayed) {
-        const startedDate = new Date(video.startedPlayed);
+      this.currentVideo = this.room.videos.find((video) => video.id === this.room.currentVideoId);
+      await this.player.loadVideoById(this.currentVideo.youtubeId);
+      if (this.currentVideo.startedPlayed) {
+        const startedDate = new Date(this.currentVideo.startedPlayed);
         const now = new Date();
         const seconds = (now.getTime() - startedDate.getTime()) / 1000;
         await this.player.seekTo(seconds);
       }
+      this.player.addEventListener('onStateChange', (event: YT.EventArgs) => event.data === 0 && this.onVideoEnded.call(this));
     }, 10);
   }
 
@@ -66,5 +69,28 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   onAddVideo(videoAdded) {
     this.room.videos.push(videoAdded);
+  }
+
+  async onVideoEnded() {
+    const nextVideo = this.getNextVideo();
+    if (nextVideo) {
+      this.player.loadVideoById(nextVideo.youtubeId);
+      this.roomService.changeVideo(nextVideo.id, false);
+    }
+  }
+
+  async onChangeVideo(video: Video) {
+    this.currentVideo = this.room.videos.find((roomVideo) => video.id == roomVideo.id);
+    if (this.currentVideo) {
+      await this.player.loadVideoById(video.youtubeId);
+    }
+  }
+
+  playVideoClick(video: Video) {
+    this.roomService.changeVideo(video.id, true);
+  }
+
+  getNextVideo() {
+    return this.room.videos[this.room.videos.indexOf(this.currentVideo) + 1];
   }
 }
