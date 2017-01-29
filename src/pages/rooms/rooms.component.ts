@@ -21,4 +21,9 @@ export class RoomsComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
+
+  async deleteRoom(roomToDelete: Room) {
+    await this.roomService.deleteRoom(roomToDelete.id);
+    this.rooms = this.rooms.filter((room) => room.id !== roomToDelete.id);
+  }
 }

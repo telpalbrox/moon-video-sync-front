@@ -1,4 +1,4 @@
 <h2>Rooms</h2>
 <ul *ngFor="let room of rooms">
-  <li><a [routerLink]="['/rooms', room.id]">{{ room.name }}</a></li>
+  <li><a [routerLink]="['/rooms', room.id]">{{ room.name }}</a> <button (click)="deleteRoom(room)">Delete room</button></li>
 </ul>

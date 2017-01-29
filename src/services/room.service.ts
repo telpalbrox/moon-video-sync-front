@@ -24,6 +24,10 @@ export class RoomService {
     return response.json();
   }
 
+  async deleteRoom(id: number) {
+    await this.http.delete(`${environment.apiUrl}/rooms/${id}`, this.getOptions()).toPromise();
+  }
+
   async addVideoToRoom(roomId: number, youtubeId: string) {
     const response = await this.http.post(`${environment.apiUrl}/rooms/${roomId}/videos`, {
       youtubeId
