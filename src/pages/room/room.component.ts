@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import YouTubePlayer from 'youtube-player';
 import { RoomService } from '../../services/room.service';
 
@@ -12,6 +12,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   youtubeId: string;
   player: any;
   currentVideo: Video;
+  messages: ChatMessage[] = [];
+  users: User[] = [];
 
   constructor(
     private roomService: RoomService,
@@ -24,10 +26,13 @@ export class RoomComponent implements OnInit, OnDestroy {
     await this.roomService.joinRoom(id, {
       onDeleteVideo: this.onDeleteVideo.bind(this),
       onAddVideo: this.onAddVideo.bind(this),
-      onChangeVideo: this.onChangeVideo.bind(this)
+      onChangeVideo: this.onChangeVideo.bind(this),
+      onUserJoin: this.onUserJoin.bind(this),
+      onUserLeave: this.onUserLeave.bind(this)
     });
     try {
       this.room = await this.roomService.getRoom(id);
+      this.users = this.room.users;
     } catch (err) {
       await this.router.navigate(['/login']);
       return;
@@ -108,5 +113,24 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   getNextVideo() {
     return this.room.videos[this.room.videos.indexOf(this.currentVideo) + 1];
+  }
+
+  onUserJoin(user: User) {
+    // FIXME show logged when navigating to the room from another page
+    this.users.push(user);
+    this.messages.push({
+      sendedBy: 'System',
+      message: `${user.firstName} ${user.lastName} has joined the room!`,
+      sended: new Date().toISOString()
+    });
+  }
+
+  onUserLeave(userLeaving: User) {
+    this.users = this.users.filter((user) => user.id !== userLeaving.id);
+    this.messages.push({
+      sendedBy: 'System',
+      message: `${userLeaving.firstName} ${userLeaving.lastName} has left the room!`,
+      sended: new Date().toISOString()
+    });
   }
 }

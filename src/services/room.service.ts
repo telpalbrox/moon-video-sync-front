@@ -43,7 +43,9 @@ export class RoomService {
   async joinRoom(roomId: number, listeners: {
     onDeleteVideo: (video: Video) => void,
     onAddVideo: (video: Video) => void,
-    onChangeVideo: (video: Video) => void
+    onChangeVideo: (video: Video) => void,
+    onUserJoin: (user: User) => void,
+    onUserLeave: (user: User) => void
   }) {
     await this.socketService.connect();
     this.socketService.emit('join room', { id: roomId });
@@ -54,6 +56,8 @@ export class RoomService {
     this.socketService.on('video added', (video) => listeners.onAddVideo(video));
     this.socketService.on('video deleted', (video) => listeners.onDeleteVideo(video));
     this.socketService.on('video changed', (video) => listeners.onChangeVideo(video));
+    this.socketService.on('user join', (user) => listeners.onUserJoin(user));
+    this.socketService.on('user leave', (user) => listeners.onUserLeave(user));
   }
 
   leaveRoom(id: number) {

@@ -8,6 +8,14 @@
   <div *ngFor="let video of room.videos">
     <a href="javascript:void(0)" (click)="playVideoClick(video)">Play</a> {{ video.youtubeId }} - {{ video.title }} <button (click)="onDeleteVideoClick(video)">Remove</button>
   </div>
+  <h3>Users in the room</h3>
+  <ul>
+    <li *ngFor="let user of users">{{ user.firstName }} {{ user.lastName }}</li>
+  </ul>
+  <h3>Messages</h3>
+  <ul>
+    <li *ngFor="let message of messages">{{ message.sendedBy }}: {{ message.message }}</li>
+  </ul>
 </div>
 <div *ngIf="!room">
   Loading...

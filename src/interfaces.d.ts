@@ -23,3 +23,9 @@ interface Video {
   currentPosition?: number;
   startedPlayed?: string;
 }
+
+interface ChatMessage {
+  message: string;
+  sendedBy: string;
+  sended: string;
+}
