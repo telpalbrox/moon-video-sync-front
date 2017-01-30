@@ -35,6 +35,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     try {
       this.room = await this.roomService.getRoom(id);
       this.users = this.room.users;
+      this.users = this.users.filter(function (item, pos, self) {
+        return self.indexOf(item) == pos;
+      });
     } catch (err) {
       await this.router.navigate(['/login']);
       return;
