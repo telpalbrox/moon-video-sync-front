@@ -16,6 +16,9 @@
   <ul>
     <li *ngFor="let message of messages">{{ message.sendedBy }}: {{ message.message }}</li>
   </ul>
+  <form (ngSubmit)="onSendMessageSumbit()">
+    <label>Message <input name="message" [(ngModel)]="message"></label> <button type="submit">Send message</button>
+  </form>
 </div>
 <div *ngIf="!room">
   Loading...

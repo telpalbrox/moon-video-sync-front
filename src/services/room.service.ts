@@ -45,7 +45,8 @@ export class RoomService {
     onAddVideo: (video: Video) => void,
     onChangeVideo: (video: Video) => void,
     onUserJoin: (user: User) => void,
-    onUserLeave: (user: User) => void
+    onUserLeave: (user: User) => void,
+    onNewMessage: (message: ChatMessage) => void
   }) {
     await this.socketService.connect();
     this.socketService.emit('join room', { id: roomId });
@@ -58,6 +59,7 @@ export class RoomService {
     this.socketService.on('video changed', (video) => listeners.onChangeVideo(video));
     this.socketService.on('user join', (user) => listeners.onUserJoin(user));
     this.socketService.on('user leave', (user) => listeners.onUserLeave(user));
+    this.socketService.on('new message', (message) => listeners.onNewMessage(message));
   }
 
   leaveRoom(id: number) {
@@ -67,6 +69,10 @@ export class RoomService {
 
   changeVideo(id: number, emit: boolean) {
     this.socketService.emit('change video', { id, emit });
+  }
+
+  sendMessage(message: string) {
+    this.socketService.emit('send message', { message });
   }
 
   pauseSong() {

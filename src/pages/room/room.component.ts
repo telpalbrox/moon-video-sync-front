@@ -14,6 +14,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   currentVideo: Video;
   messages: ChatMessage[] = [];
   users: User[] = [];
+  message: string;
 
   constructor(
     private roomService: RoomService,
@@ -28,7 +29,8 @@ export class RoomComponent implements OnInit, OnDestroy {
       onAddVideo: this.onAddVideo.bind(this),
       onChangeVideo: this.onChangeVideo.bind(this),
       onUserJoin: this.onUserJoin.bind(this),
-      onUserLeave: this.onUserLeave.bind(this)
+      onUserLeave: this.onUserLeave.bind(this),
+      onNewMessage: this.onNewMessage.bind(this)
     });
     try {
       this.room = await this.roomService.getRoom(id);
@@ -132,5 +134,18 @@ export class RoomComponent implements OnInit, OnDestroy {
       message: `${userLeaving.firstName} ${userLeaving.lastName} has left the room!`,
       sended: new Date().toISOString()
     });
+  }
+
+  onNewMessage(message: ChatMessage) {
+    this.messages.push(message);
+  }
+
+  onSendMessageSumbit() {
+    console.log('message submit');
+    if (!this.message) {
+      return;
+    }
+    this.roomService.sendMessage(this.message);
+    this.message = '';
   }
 }
