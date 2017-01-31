@@ -40,6 +40,13 @@ export class RoomService {
     return response.json();
   }
 
+  async importPlaylist(roomId: number, youtubePlaylistId: string): Promise<Room> {
+    const response = await this.http.post(`${environment.apiUrl}/rooms/${roomId}/playlist`, {
+      playlistId: youtubePlaylistId
+    }, this.getOptions()).toPromise();
+    return response.json();
+  }
+
   async joinRoom(roomId: number, listeners: {
     onDeleteVideo: (video: Video) => void,
     onAddVideo: (video: Video) => void,

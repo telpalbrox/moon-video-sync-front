@@ -15,6 +15,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   messages: ChatMessage[] = [];
   users: User[] = [];
   message: string;
+  youtubePlaylistId: string;
 
   constructor(
     private roomService: RoomService,
@@ -150,5 +151,10 @@ export class RoomComponent implements OnInit, OnDestroy {
     }
     this.roomService.sendMessage(this.message);
     this.message = '';
+  }
+
+  async onImportYoutubePlaylistClick() {
+    await this.roomService.importPlaylist(this.room.id, this.youtubePlaylistId);
+    this.youtubePlaylistId = '';
   }
 }

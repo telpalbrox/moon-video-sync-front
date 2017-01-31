@@ -4,6 +4,7 @@
   <div id="yt-player"></div>
   <br>
   <label>Youtube id <input name="youtubeId" [(ngModel)]="youtubeId"></label> <button (click)="onAddVideoClick()" type="submit">Add</button>
+  <label>Youtube playlist id <input name="youtubeId" [(ngModel)]="youtubePlaylistId"></label> <button (click)="onImportYoutubePlaylistClick()" type="submit">Import</button>
   <br>
   <div *ngFor="let video of room.videos">
     <a href="javascript:void(0)" (click)="playVideoClick(video)">Play</a> {{ video.youtubeId }} - {{ video.title }} <button (click)="onDeleteVideoClick(video)">Remove</button>
