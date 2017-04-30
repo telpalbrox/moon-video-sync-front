@@ -13,6 +13,8 @@ export class SocketService {
       }
       if (!this.socketClient.connected) {
         this.socketClient.connect();
+      } else {
+        resolve();
       }
       this.socketClient.on('connect', () => {
         resolve();

@@ -18,7 +18,11 @@ export class RoomsComponent implements OnInit {
     try {
       this.rooms = await this.roomService.getAll();
     } catch (err) {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/login'], {
+        queryParams: {
+          redirectTo: '/rooms'
+        }
+      });
     }
   }
 

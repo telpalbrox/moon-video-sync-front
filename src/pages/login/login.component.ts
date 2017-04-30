@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -14,7 +14,8 @@ export class LoginComponent {
 
     constructor(
       private authService: AuthService,
-      private router: Router
+      private router: Router,
+      private route: ActivatedRoute,
     ) { }
 
     async onSubmit() {
@@ -26,7 +27,8 @@ export class LoginComponent {
       try {
         await this.authService.login(this.email, this.password);
         this.showError = false;
-        await this.router.navigate(['/rooms']);
+        const redirectRoute = this.route.snapshot.queryParamMap.get('redirectTo');
+        this.router.navigateByUrl(redirectRoute ? redirectRoute : '/rooms');
       } catch(err) {
         this.showError = true;
       }

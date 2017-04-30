@@ -40,9 +40,14 @@ export class RoomComponent implements OnInit, OnDestroy {
         return self.indexOf(item) == pos;
       });
     } catch (err) {
-      await this.router.navigate(['/login']);
+      await this.router.navigate(['/login'], {
+        queryParams: {
+          redirectTo: `/rooms/${this.route.snapshot.paramMap.get('id')}`
+        }
+      });
       return;
     }
+    // TODO better DOM management
     setTimeout(async () => {
       this.player = YouTubePlayer('yt-player', {
         playerVars: {
