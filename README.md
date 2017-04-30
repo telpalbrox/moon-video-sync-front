@@ -1,4 +1,7 @@
-# AngularTest
+# Moon Video Sync Front
+
+
+[![build status](https://gitlab.com/albertoluna/moon-video-sync-front/badges/master/build.svg)](https://gitlab.com/albertoluna/moon-video-sync-front/commits/master)
 
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.26.
 
