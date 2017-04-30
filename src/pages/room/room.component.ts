@@ -125,18 +125,18 @@ export class RoomComponent implements OnInit, OnDestroy {
     // FIXME show logged when navigating to the room from another page
     this.users.push(user);
     this.messages.push({
-      sendedBy: 'System',
+      sentBy: 'System',
       message: `${user.firstName} ${user.lastName} has joined the room!`,
-      sended: new Date().toISOString()
+      date: new Date().toISOString()
     });
   }
 
   onUserLeave(userLeaving: User) {
     this.users = this.users.filter((user) => user.id !== userLeaving.id);
     this.messages.push({
-      sendedBy: 'System',
+      sentBy: 'System',
       message: `${userLeaving.firstName} ${userLeaving.lastName} has left the room!`,
-      sended: new Date().toISOString()
+      date: new Date().toISOString()
     });
   }
 

@@ -26,6 +26,6 @@ interface Video {
 
 interface ChatMessage {
   message: string;
-  sendedBy: string;
-  sended: string;
+  sentBy: string;
+  date: string;
 }

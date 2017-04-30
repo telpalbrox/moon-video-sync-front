@@ -11,7 +11,6 @@ export class AppComponent {
   constructor(private authService: AuthService) { }
 
   logout() {
-    console.log('asdf');
     this.authService.logout();
   }
 }
